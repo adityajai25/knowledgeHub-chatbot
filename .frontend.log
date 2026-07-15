@@ -1,0 +1,10 @@
+
+> knowledgehub-frontend@0.1.0 dev
+> vite --host 127.0.0.1 --port 5173
+
+
+  VITE v5.4.21  ready in 124 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+1:10:18 pm [vite] hmr update /src/App.jsx
+1:10:18 pm [vite] hmr update /src/styles.css
