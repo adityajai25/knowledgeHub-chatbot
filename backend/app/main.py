@@ -24,3 +24,7 @@ app.include_router(docs_router, prefix="/api/docs", tags=["docs"])
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+@app.get("/", tags=["root"])
+def read_root():
+    return {"message": "KnowledgeHub AI API is running"}

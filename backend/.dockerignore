@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.example
+.git/
+.gitignore
+.dockerignore
+uploads/
+embeddings_meta.json
+embeddings_vectors.json
+pyrightconfig.json
+pyrefly.toml
+*.md

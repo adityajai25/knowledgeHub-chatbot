@@ -1,0 +1,7 @@
+.git/
+.vscode/
+*.md
+.backend.log
+.frontend.log
+.env
+.env.docker
