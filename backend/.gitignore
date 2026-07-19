@@ -1,5 +1,47 @@
+# Environment variables
 .env
+
+# Virtual environment
 .venv/
+venv/
+env/
+
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Temp files
 /tmp/
+
+# Uploads (user-generated content)
+uploads/
+
+# Embeddings (generated data)
+embeddings_meta.json
+embeddings_vectors.json
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# mypy / type checking
+.mypy_cache/
