@@ -1,6 +1,7 @@
 import os
 import io
 from app.db.database import SessionLocal
+from app.docs.chunking import chunk_text
 from app.models import Document
 from app.embeddings.hf_client import get_hf_client
 from PyPDF2 import PdfReader
@@ -43,23 +44,21 @@ def extract_text_from_file(path):
     return None
 
 
-def already_indexed(meta, doc_id):
-    for v in meta.values():
-        if v.get('doc_id') == doc_id:
-            return True
-    return False
+def already_indexed(hf, doc_id):
+    try:
+        return hf.is_document_indexed(doc_id)
+    except Exception:
+        return False
 
 
 def main():
     hf = get_hf_client()
-    # load existing meta
-    meta = hf.meta
 
     db = SessionLocal()
     docs = db.query(Document).all()
     uploaded_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'uploads')
     for doc in docs:
-        if already_indexed(meta, doc.id):
+        if already_indexed(hf, doc.id):
             print(f"Skipping doc {doc.id} already indexed")
             continue
         path = doc.filepath
@@ -75,13 +74,18 @@ def main():
             print(f"No text extracted for doc {doc.id} ({doc.filename})")
             continue
 
-        chunks = [text[i:i+500] for i in range(0, len(text), 500) if text[i:i+500].strip()]
+        chunks = chunk_text(text, 500, 50)
         vectors = []
         metas = []
-        for c in chunks:
+        for idx, c in enumerate(chunks):
             v = hf.embed_text(c)
             vectors.append(v)
-            metas.append({'doc_id': doc.id, 'text': c[:200]})
+            metas.append({
+                'doc_id': doc.id,
+                'chunk_index': idx,
+                'filename': doc.filename,
+                'text': c[:200],
+            })
         hf.add_embeddings(vectors, metas)
         print(f"Indexed doc {doc.id} with {len(chunks)} chunks")
 

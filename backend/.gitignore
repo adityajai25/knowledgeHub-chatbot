@@ -26,6 +26,7 @@ uploads/
 # Embeddings (generated data)
 embeddings_meta.json
 embeddings_vectors.json
+.chromadb/
 
 # Editor / IDE
 .vscode/

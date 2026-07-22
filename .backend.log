@@ -1,63 +1,417 @@
 INFO:     Will watch for changes in these directories: ['/Volumes/Work/KnowledgeHub-AI/backend']
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [15475] using WatchFiles
+INFO:     Started reloader process [79419] using WatchFiles
 /Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-INFO:     Started server process [15538]
+INFO:     Started server process [79423]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     127.0.0.1:54964 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54966 - "POST /api/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54967 - "POST /api/docs/search HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52309 - "OPTIONS /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52310 - "OPTIONS /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52309 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52310 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52331 - "OPTIONS /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52333 - "POST /api/docs/chat/stream HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:52538 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52538 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52538 - "OPTIONS /api/docs/sessions/12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52538 - "GET /api/docs/sessions/12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52538 - "OPTIONS /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "OPTIONS /api/docs/sessions/12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "GET /api/docs/sessions/12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "OPTIONS /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52539 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "GET /api/docs/sessions/12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "DELETE /api/docs/sessions/12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "DELETE /api/docs/sessions/11 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "OPTIONS /api/docs/sessions/9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "DELETE /api/docs/sessions/9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "OPTIONS /api/docs/sessions/8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52659 - "DELETE /api/docs/sessions/8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52659 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52659 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52659 - "OPTIONS /api/docs/27 HTTP/1.1" 200 OK
+vector delete by ids error: 'Client' object has no attribute 'persist'
+vector delete by where error: 'Client' object has no attribute 'persist'
+INFO:     127.0.0.1:52616 - "DELETE /api/docs/27 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "OPTIONS /api/docs/26 HTTP/1.1" 200 OK
+vector delete by ids error: 'Client' object has no attribute 'persist'
+vector delete by where error: 'Client' object has no attribute 'persist'
+INFO:     127.0.0.1:52659 - "DELETE /api/docs/26 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52659 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52659 - "OPTIONS /api/docs/25 HTTP/1.1" 200 OK
+vector delete by ids error: 'Client' object has no attribute 'persist'
+vector delete by where error: 'Client' object has no attribute 'persist'
+INFO:     127.0.0.1:52616 - "DELETE /api/docs/25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52616 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52794 - "OPTIONS /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52794 - "POST /api/auth/register HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52794 - "OPTIONS /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52796 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52796 - "OPTIONS /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52794 - "OPTIONS /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52796 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52796 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52800 - "OPTIONS /api/docs/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52800 - "POST /api/docs/upload HTTP/1.1" 201 Created
+INFO:     127.0.0.1:52800 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52800 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52852 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52800 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52800 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52854 - "OPTIONS /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52854 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52854 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52858 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52858 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52881 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52881 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52892 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52892 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52904 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52904 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52909 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52909 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52909 - "OPTIONS /api/docs/sessions/13 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52909 - "GET /api/docs/sessions/13 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/retrieval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [79423]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [6270]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/docs/formatting.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6270]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [6307]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/docs/retrieval.py', 'app/docs/formatting.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6307]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [6321]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
 WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [15538]
+INFO:     Finished server process [6321]
 /Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-INFO:     Started server process [16312]
+INFO:     Started server process [6417]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     127.0.0.1:54978 - "POST /api/auth/login HTTP/1.1" 200 OK
-WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for connections to close. (CTRL+C to force quit)
-INFO:     127.0.0.1:54979 - "POST /api/docs/search HTTP/1.1" 200 OK
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [16312]
-/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-INFO:     Started server process [16984]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-Device set to use mps:0
-INFO:     127.0.0.1:54988 - "POST /api/docs/chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55047 - "POST /api/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55048 - "POST /api/docs/search HTTP/1.1" 200 OK
-Device set to use mps:0
-INFO:     127.0.0.1:55049 - "POST /api/docs/chat HTTP/1.1" 200 OK
 WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [16984]
+INFO:     Finished server process [6417]
 /Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-INFO:     Started server process [17891]
+INFO:     Started server process [6444]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     127.0.0.1:55069 - "POST /api/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55070 - "POST /api/docs/search HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55073 - "POST /api/docs/chat HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/routes.py', 'app/docs/response_utils.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6444]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [6651]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/docs/routes.py', 'app/docs/response_utils.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6651]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [6660]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53018 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53018 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53018 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53026 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53039 - "OPTIONS /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53039 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53039 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53041 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/retrieval.py', 'app/docs/formatting.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6660]
+WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [7828]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [7836]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53131 - "OPTIONS /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53133 - "OPTIONS /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53131 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53131 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53135 - "OPTIONS /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53135 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53135 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53135 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53135 - "OPTIONS /api/docs/18 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53135 - "OPTIONS /api/docs/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53150 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53150 - "GET /api/docs/ HTTP/1.1" 200 OK
+vector cleanup error bindings
+vector cleanup error '/Volumes/Work/KnowledgeHub-AI/backend/.chromadb'
+INFO:     127.0.0.1:53150 - "DELETE /api/docs/18 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53150 - "DELETE /api/docs/17 HTTP/1.1" 404 Not Found
+/Volumes/Work/KnowledgeHub-AI/backend/app/docs/routes.py:331: SAWarning: DELETE statement on table 'documents' expected to delete 1 row(s); 0 were matched.  Please set confirm_deleted_rows=False within the mapper configuration to prevent this warning.
+  db.commit()
+vector delete by ids error: 'Client' object has no attribute 'persist'
+vector delete by where error: 'Client' object has no attribute 'persist'
+INFO:     127.0.0.1:53186 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53186 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53186 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53191 - "OPTIONS /api/auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53191 - "POST /api/auth/register HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:53193 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:53198 - "POST /api/auth/register HTTP/1.1" 201 Created
+INFO:     127.0.0.1:53198 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53198 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53198 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53200 - "OPTIONS /api/docs/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53200 - "POST /api/docs/upload HTTP/1.1" 201 Created
+INFO:     127.0.0.1:53200 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53225 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53225 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53227 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53227 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53235 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53235 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53259 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53259 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53271 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53271 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53281 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53281 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53290 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53290 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53290 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53290 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53290 - "OPTIONS /api/docs/sessions/14 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53290 - "GET /api/docs/sessions/14 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53300 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53300 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53300 - "GET /api/docs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53300 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53300 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53300 - "GET /api/docs/sessions/14 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/source_utils.py', 'app/docs/prompt_builder.py', 'app/docs/retrieval.py', 'app/docs/question_type.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [7836]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [8970]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/docs/source_utils.py', 'app/docs/prompt_builder.py', 'app/docs/retrieval.py', 'app/docs/question_type.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [8970]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [8987]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
 WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [17891]
+INFO:     Finished server process [8987]
 /Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-INFO:     Started server process [18702]
+Process SpawnProcess-13:
+Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Volumes/Work/KnowledgeHub-AI/backend/app/main.py", line 5, in <module>
+    from app.docs.routes import router as docs_router
+  File "/Volumes/Work/KnowledgeHub-AI/backend/app/docs/routes.py", line 21, in <module>
+    from app.docs.response_utils import (
+ImportError: cannot import name 'is_absent_answer' from 'app.docs.response_utils' (/Volumes/Work/KnowledgeHub-AI/backend/app/docs/response_utils.py)
+WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Process SpawnProcess-14:
+Traceback (most recent call last):
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/server.py", line 65, in run
+    return asyncio.run(self.serve(sockets=sockets))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/server.py", line 69, in serve
+    await self._serve(sockets)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/server.py", line 76, in _serve
+    config.load()
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/config.py", line 434, in load
+    self.loaded_app = import_from_string(self.app)
+  File "/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Volumes/Work/KnowledgeHub-AI/backend/app/main.py", line 5, in <module>
+    from app.docs.routes import router as docs_router
+  File "/Volumes/Work/KnowledgeHub-AI/backend/app/docs/routes.py", line 21, in <module>
+    from app.docs.response_utils import (
+ImportError: cannot import name 'is_absent_answer' from 'app.docs.response_utils' (/Volumes/Work/KnowledgeHub-AI/backend/app/docs/response_utils.py)
+WARNING:  WatchFiles detected changes in 'app/docs/prompt_builder.py', 'app/docs/response_utils.py'. Reloading...
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [9316]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53378 - "OPTIONS /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53378 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/prompt_builder.py', 'app/docs/response_utils.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [9316]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [9332]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53384 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [9332]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [9416]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/docs/routes.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [9416]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+WARNING:  WatchFiles detected changes in 'app/docs/prompt_builder.py', 'app/docs/response_utils.py'. Reloading...
+INFO:     Started server process [9727]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [9731]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53410 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/prompt_builder.py', 'app/docs/response_utils.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [9731]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [9741]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53413 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53443 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53482 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53486 - "OPTIONS /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53486 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53486 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53488 - "POST /api/docs/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53488 - "GET /api/docs/sessions HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/docs/prompt_builder.py', 'app/docs/chat_utils.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [9741]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [10604]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/docs/prompt_builder.py', 'app/docs/chat_utils.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [10604]
+/Volumes/Work/KnowledgeHub-AI/backend/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [10809]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.

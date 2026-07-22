@@ -3,8 +3,16 @@
 > vite --host 127.0.0.1 --port 5173
 
 
-  VITE v5.4.21  ready in 124 ms
+  VITE v5.4.21  ready in 160 ms
 
   ➜  Local:   http://127.0.0.1:5173/
-1:10:18 pm [vite] hmr update /src/App.jsx
-1:10:18 pm [vite] hmr update /src/styles.css
+11:37:06 PM [vite] hmr update /src/App.jsx
+11:37:09 PM [vite] hmr update /src/App.jsx
+11:37:14 PM [vite] hmr update /src/App.jsx
+11:37:33 PM [vite] hmr update /src/App.jsx
+11:50:42 PM [vite] hmr update /src/App.jsx
+11:50:44 PM [vite] hmr update /src/App.jsx
+11:52:27 PM [vite] hmr update /src/App.jsx
+11:52:29 PM [vite] hmr update /src/App.jsx
+11:52:44 PM [vite] hmr update /src/App.jsx
+11:53:45 PM [vite] hmr update /src/App.jsx

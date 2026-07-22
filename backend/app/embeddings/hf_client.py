@@ -1,6 +1,5 @@
 import os
-import json
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 import numpy as np
 import requests
@@ -24,25 +23,6 @@ class EndpointEmbeddings(BaseEmbeddings):
         self.endpoint = settings.hf_inference_endpoint
         if not self.endpoint:
             raise RuntimeError('HF inference endpoint not configured')
-        self.meta_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'embeddings_meta.json')
-        self.vectors_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'embeddings_vectors.json')
-        self._load()
-
-    def _load(self):
-        if os.path.exists(self.meta_path) and os.path.exists(self.vectors_path):
-            with open(self.meta_path, 'r') as f:
-                self.meta = json.load(f)
-            with open(self.vectors_path, 'r') as f:
-                self.vectors = json.load(f)
-        else:
-            self.meta = {}
-            self.vectors = []
-
-    def _save(self):
-        with open(self.meta_path, 'w') as f:
-            json.dump(self.meta, f)
-        with open(self.vectors_path, 'w') as f:
-            json.dump(self.vectors, f)
 
     def embed_text(self, text: str) -> List[float]:
         headers = {"Authorization": f"Bearer {settings.hf_api_key}"} if settings.hf_api_key else {}
@@ -50,35 +30,10 @@ class EndpointEmbeddings(BaseEmbeddings):
         resp = requests.post(self.endpoint, headers=headers, json=payload, timeout=60)
         resp.raise_for_status()
         data = resp.json()
-        # if nested tokens, average
         if isinstance(data, list) and len(data) > 0 and isinstance(data[0], list):
             arr = np.array(data, dtype=float)
             return arr.mean(axis=0).tolist()
         return data
-
-    def add_embeddings(self, vectors: List[List[float]], metas: List[dict]):
-        start = len(self.vectors)
-        for i, v in enumerate(vectors):
-            self.vectors.append(v)
-            self.meta[str(start + i)] = metas[i]
-        self._save()
-
-    def search(self, query_vec: List[float], top_k: int = 5):
-        if len(self.vectors) == 0:
-            return []
-        arr = np.array(self.vectors, dtype=float)
-        q = np.array(query_vec, dtype=float)
-        norms = np.linalg.norm(arr, axis=1) * (np.linalg.norm(q) + 1e-12)
-        sims = (arr @ q) / norms
-        idxs = np.argsort(-sims)[:top_k]
-        results = []
-        for idx in idxs:
-            results.append({
-                'id': int(idx),
-                'score': float(sims[idx]),
-                'meta': self.meta.get(str(idx))
-            })
-        return results
 
 
 class APIEmbeddings(BaseEmbeddings):
@@ -88,25 +43,6 @@ class APIEmbeddings(BaseEmbeddings):
             raise RuntimeError("Hugging Face API key not configured (HF_API_KEY)")
         self.token = token
         self.model = settings.hf_embedding_model
-        self.meta_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'embeddings_meta.json')
-        self.vectors_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'embeddings_vectors.json')
-        self._load()
-
-    def _load(self):
-        if os.path.exists(self.meta_path) and os.path.exists(self.vectors_path):
-            with open(self.meta_path, 'r') as f:
-                self.meta = json.load(f)
-            with open(self.vectors_path, 'r') as f:
-                self.vectors = json.load(f)
-        else:
-            self.meta = {}
-            self.vectors = []
-
-    def _save(self):
-        with open(self.meta_path, 'w') as f:
-            json.dump(self.meta, f)
-        with open(self.vectors_path, 'w') as f:
-            json.dump(self.vectors, f)
 
     def embed_text(self, text: str) -> List[float]:
         url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{self.model}"
@@ -117,33 +53,8 @@ class APIEmbeddings(BaseEmbeddings):
         data = resp.json()
         if isinstance(data, list) and len(data) > 0 and isinstance(data[0], list):
             arr = np.array(data, dtype=float)
-            vec = arr.mean(axis=0).tolist()
-            return vec
+            return arr.mean(axis=0).tolist()
         return data
-
-    def add_embeddings(self, vectors: List[List[float]], metas: List[dict]):
-        start = len(self.vectors)
-        for i, v in enumerate(vectors):
-            self.vectors.append(v)
-            self.meta[str(start + i)] = metas[i]
-        self._save()
-
-    def search(self, query_vec: List[float], top_k: int = 5):
-        if len(self.vectors) == 0:
-            return []
-        arr = np.array(self.vectors, dtype=float)
-        q = np.array(query_vec, dtype=float)
-        norms = np.linalg.norm(arr, axis=1) * (np.linalg.norm(q) + 1e-12)
-        sims = (arr @ q) / norms
-        idxs = np.argsort(-sims)[:top_k]
-        results = []
-        for idx in idxs:
-            results.append({
-                'id': int(idx),
-                'score': float(sims[idx]),
-                'meta': self.meta.get(str(idx))
-            })
-        return results
 
 
 class LocalEmbeddings(BaseEmbeddings):
@@ -152,56 +63,112 @@ class LocalEmbeddings(BaseEmbeddings):
             from sentence_transformers import SentenceTransformer
         except Exception as e:
             raise RuntimeError('Local sentence-transformers not installed. Run: pip install -U sentence-transformers') from e
-        self.model_name = settings.hf_embedding_model.split('/')[-1]
-        # If model name is a full repo path, use that; otherwise default to the model string
         self.model = SentenceTransformer(settings.hf_embedding_model)
-        self.meta_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'embeddings_meta.json')
-        self.vectors_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'embeddings_vectors.json')
-        self._load()
-
-    def _load(self):
-        if os.path.exists(self.meta_path) and os.path.exists(self.vectors_path):
-            with open(self.meta_path, 'r') as f:
-                self.meta = json.load(f)
-            with open(self.vectors_path, 'r') as f:
-                self.vectors = json.load(f)
-        else:
-            self.meta = {}
-            self.vectors = []
-
-    def _save(self):
-        with open(self.meta_path, 'w') as f:
-            json.dump(self.meta, f)
-        with open(self.vectors_path, 'w') as f:
-            json.dump(self.vectors, f)
 
     def embed_text(self, text: str) -> List[float]:
         vec = self.model.encode(text)
         return vec.tolist() if hasattr(vec, 'tolist') else list(vec)
 
+
+class ChromaEmbeddings(BaseEmbeddings):
+    def __init__(self, embedder: BaseEmbeddings):
+        try:
+            import chromadb
+            from chromadb.config import Settings as ChromaSettings
+        except Exception as e:
+            raise RuntimeError('ChromaDB is not installed. Run: pip install chromadb') from e
+
+        self.embedder = embedder
+        self.persist_directory = os.path.abspath(settings.chroma_persist_directory)
+        os.makedirs(self.persist_directory, exist_ok=True)
+
+        self.client = chromadb.Client(
+            settings=ChromaSettings(
+                persist_directory=self.persist_directory,
+                is_persistent=True,
+            )
+        )
+        self.collection = self.client.get_or_create_collection(
+            name="knowledgehub",
+            metadata={"source": "knowledgehub"},
+        )
+
+    def embed_text(self, text: str) -> List[float]:
+        return self.embedder.embed_text(text)
+
     def add_embeddings(self, vectors: List[List[float]], metas: List[dict]):
-        start = len(self.vectors)
-        for i, v in enumerate(vectors):
-            self.vectors.append(v)
-            self.meta[str(start + i)] = metas[i]
-        self._save()
+        ids = []
+        documents = []
+        for meta in metas:
+            doc_id = meta.get("doc_id")
+            chunk_index = meta.get("chunk_index")
+            if doc_id is None or chunk_index is None:
+                raise ValueError("meta must include doc_id and chunk_index for Chroma storage")
+            ids.append(f"doc-{doc_id}-chunk-{chunk_index}")
+            documents.append(str(meta.get("text", "")))
+
+        try:
+            self.collection.delete(ids=ids)
+        except Exception:
+            pass
+
+        self.collection.add(
+            ids=ids,
+            embeddings=vectors,
+            metadatas=metas,
+            documents=documents,
+        )
 
     def search(self, query_vec: List[float], top_k: int = 5):
-        if len(self.vectors) == 0:
+        if self.collection.count() == 0:
             return []
-        arr = np.array(self.vectors, dtype=float)
-        q = np.array(query_vec, dtype=float)
-        norms = np.linalg.norm(arr, axis=1) * (np.linalg.norm(q) + 1e-12)
-        sims = (arr @ q) / norms
-        idxs = np.argsort(-sims)[:top_k]
+
+        result = self.collection.query(
+            query_embeddings=query_vec,
+            n_results=top_k,
+            include=["metadatas", "distances"],
+        )
+        ids = result.get("ids", [[]])[0]
+        metadatas = result.get("metadatas", [[]])[0]
+        distances = result.get("distances", [[]])[0]
         results = []
-        for idx in idxs:
-            results.append({
-                'id': int(idx),
-                'score': float(sims[idx]),
-                'meta': self.meta.get(str(idx))
-            })
+        for idx, meta, dist in zip(ids, metadatas, distances):
+            score = 1.0 - float(dist) if dist is not None else 0.0
+            results.append({"id": idx, "score": score, "meta": meta})
         return results
+
+    def delete_by_doc_id(self, doc_id: int):
+        ids_to_delete = []
+        try:
+            result = self.collection.get(where={"doc_id": doc_id}, include=["metadatas", "documents"])
+            ids_to_delete = result.get("ids", [[]])[0]
+        except Exception as e:
+            print(f"vector delete lookup error: {e}")
+
+        if ids_to_delete:
+            try:
+                self.collection.delete(ids=ids_to_delete)
+                self.client.persist()
+                return
+            except Exception as e:
+                print(f"vector delete by ids error: {e}")
+
+        try:
+            self.collection.delete(where={"doc_id": doc_id})
+            self.client.persist()
+        except Exception as e:
+            print(f"vector delete by where error: {e}")
+
+    def is_document_indexed(self, doc_id: int) -> bool:
+        try:
+            result = self.collection.get(
+                where={"doc_id": doc_id},
+                include=["metadatas"],
+            )
+            metadatas = result.get("metadatas", [[]])[0]
+            return bool(metadatas)
+        except Exception:
+            return False
 
 
 hf_embeddings: Optional[BaseEmbeddings] = None
@@ -210,16 +177,15 @@ hf_embeddings: Optional[BaseEmbeddings] = None
 def get_hf_client():
     global hf_embeddings
     if hf_embeddings is None:
-        # priority: endpoint -> local cache -> api
-        # Prefer local embeddings in environments where outbound HF DNS is blocked.
         if settings.hf_inference_endpoint:
-            hf_embeddings = EndpointEmbeddings()
+            base = EndpointEmbeddings()
         else:
             try:
-                hf_embeddings = LocalEmbeddings()
+                base = LocalEmbeddings()
             except Exception:
                 if settings.hf_api_key:
-                    hf_embeddings = APIEmbeddings()
+                    base = APIEmbeddings()
                 else:
                     raise
+        hf_embeddings = ChromaEmbeddings(base)
     return hf_embeddings

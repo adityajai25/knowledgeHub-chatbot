@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     hf_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     hf_generation_model: str = "mistralai/Mistral-7B-Instruct-v0.3"
     hf_inference_endpoint: Optional[str] = None
+    chroma_persist_directory: str = ".chromadb"
 
     # ── RAG Pipeline Tuning ──────────────────────────────────────────────
     chunk_size: int = 1500

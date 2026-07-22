@@ -13,6 +13,19 @@ from sqlalchemy.orm import Session
 from app.auth.deps import get_current_user
 from app.core.config import settings
 from app.db.database import get_db
+from app.docs.chat_utils import format_context
+from app.docs.chunking import chunk_text
+from app.docs.question_type import detect_question_type
+from app.docs.prompt_builder import build_prompt
+from app.docs.retrieval import select_top_chunks
+from app.docs.response_utils import (
+    is_greeting,
+    sanitize_answer,
+    trim_answer,
+    is_absent_answer,
+    build_absent_response,
+)
+from app.docs.source_utils import deduplicate_sources
 from app.embeddings.hf_client import get_hf_client
 from app.models import ChatMessage, ChatSession, Document
 from PyPDF2 import PdfReader
@@ -30,18 +43,13 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 # ---------------------------------------------------------------------------
 
 SYSTEM_PROMPT = (
-    "You are a Senior Industrial Engineer and Troubleshooting Specialist. "
-    "Your job is to analyze industrial documents (machine manuals, failure reports, "
-    "SOPs, maintenance logs) and provide DETAILED, ACTIONABLE guidance.\n\n"
-    "When answering:\n"
-    "1. **Identify the Problem**: Clearly state what issue or failure is described.\n"
-    "2. **Root Cause Analysis**: Explain the likely root causes based on the document.\n"
-    "3. **Step-by-Step Fix**: Provide a numbered procedure to resolve the issue.\n"
-    "4. **Safety Precautions**: Mention any safety warnings or precautions.\n"
-    "5. **Preventive Measures**: Suggest how to prevent recurrence.\n"
-    "6. **Cite Sources**: Reference which document sections your answer comes from.\n\n"
-    "Be thorough and detailed. Do NOT give short or vague answers. "
-    "If the documents don't contain enough info, say so clearly and suggest what to look for.\n\n"
+    "You are an assistant that answers questions about uploaded documents. "
+    "Use only the uploaded document content when it is directly relevant to the question. "
+    "Do not invent facts or include unrelated details. \n\n"
+    "If the user greets the assistant, reply with a friendly greeting and offer help. "
+    "If there is not enough information in the uploaded files to answer the question, say: "
+    "'I don’t have enough information from the uploaded files to answer that question.'\n\n"
+    "Keep all answers under 100 words unless the user asks for more detail."
 )
 
 
@@ -273,24 +281,18 @@ async def upload_documents(
         # Generate embeddings with configurable chunk size and overlap
         if text:
             try:
-                chunks = []
-                start = 0
-                while start < len(text):
-                    end = start + settings.chunk_size
-                    chunk = text[start:end].strip()
-                    if chunk:
-                        chunks.append(chunk)
-                    start += settings.chunk_size - settings.chunk_overlap
+                chunks = chunk_text(text, settings.chunk_size, settings.chunk_overlap)
 
                 hf = get_hf_client()
                 vectors, metas = [], []
-                for c in chunks:
+                for idx, c in enumerate(chunks):
                     cleaned = normalize_text(c)
                     emb = hf.embed_text(cleaned)
                     vectors.append(emb)
                     metas.append({
                         "doc_id": doc.id,
                         "filename": doc.filename,
+                        "chunk_index": idx,
                         "text": cleaned[:settings.chunk_metadata_length],
                     })
                 hf.add_embeddings(vectors, metas)
@@ -330,6 +332,11 @@ def delete_document(doc_id: int, db: Session = Depends(get_db), current_user=Dep
             os.remove(filepath)
     except Exception:
         pass
+    try:
+        hf = get_hf_client()
+        hf.delete_by_doc_id(doc.id)
+    except Exception as e:
+        print("vector cleanup error", e)
     db.delete(doc)
     db.commit()
     return {"deleted": doc_id}
@@ -466,34 +473,29 @@ async def rag_chat_stream(
 
     # Semantic retrieval
     sources = []
-    context = ""
-    hits = []
+    context_texts = []
+    question_type = detect_question_type(query)
     try:
-        hf = get_hf_client()
-        qvec = hf.embed_text(query)
-        hits = hf.search(qvec, top_k=top_k)
-        context_texts = [h["meta"].get("text", "") for h in hits if h.get("meta")]
-        context = "\n\n---\n\n".join(context_texts)
-        sources = [{"id": h.get("id"), "meta": h.get("meta")} for h in hits]
+        hits = select_top_chunks(query, top_k=top_k)
+        sources = deduplicate_sources([{"id": h.get("id"), "meta": h.get("meta")} for h in hits])
+        context_texts = format_context(sources)
     except Exception as e:
         print("retrieval error", e)
 
-    # Build prompt
-    prompt = (
-        f"{SYSTEM_PROMPT}"
-        f"{history_context}"
-        f"=== DOCUMENT CONTEXT ===\n{context}\n=== END CONTEXT ===\n\n"
-        f"User Question: {query}\n\n"
-        f"Provide a detailed, structured answer:"
-    )
-
-    # Get full answer
-    answer = call_llm(prompt)
-    if not answer:
-        answer = summarize_context(
-            [h["meta"].get("text", "") for h in hits if h.get("meta")],
-            query,
+    # Build prompt and answer
+    if is_greeting(query):
+        answer = (
+            "Hello! I’m here to help with your uploaded documents. "
+            "Ask me a specific question about the files, and I’ll answer clearly and professionally."
         )
+    else:
+        prompt = build_prompt(query, question_type, context_texts)
+        answer = call_llm(prompt)
+        if not answer or is_absent_answer(answer):
+            answer = build_absent_response()
+
+    answer = sanitize_answer(answer)
+    answer = trim_answer(answer, max_words=180)
 
     # Save assistant message
     assistant_msg = ChatMessage(
@@ -546,19 +548,24 @@ def rag_chat(payload: dict, db: Session = Depends(get_db), current_user=Depends(
         raise HTTPException(status_code=400, detail="query is required")
 
     try:
-        hf = get_hf_client()
-        qvec = hf.embed_text(query)
-        hits = hf.search(qvec, top_k=top_k)
-        context_texts = [h["meta"].get("text", "") for h in hits if h.get("meta")]
-        context = "\n\n---\n\n".join(context_texts)
-        sources = [{"id": h.get("id"), "meta": h.get("meta")} for h in hits]
-        prompt = (
-            f"{SYSTEM_PROMPT}"
-            f"=== DOCUMENT CONTEXT ===\n{context}\n=== END CONTEXT ===\n\n"
-            f"User Question: {query}\n\n"
-            f"Provide a detailed, structured answer:"
-        )
-        answer = call_llm(prompt) or summarize_context(context_texts, query)
+        hits = select_top_chunks(query, top_k=top_k)
+        sources = deduplicate_sources([{"id": h.get("id"), "meta": h.get("meta")} for h in hits])
+        context_texts = format_context(sources)
+        question_type = detect_question_type(query)
+
+        if is_greeting(query):
+            answer = (
+                "Hello! I’m here to help with your uploaded documents. "
+                "Ask me a specific question about the files, and I’ll answer clearly and professionally."
+            )
+        else:
+            prompt = build_prompt(query, question_type, context_texts)
+            answer = call_llm(prompt)
+            if not answer or is_absent_answer(answer):
+                answer = build_absent_response()
+
+        answer = sanitize_answer(answer)
+        answer = trim_answer(answer, max_words=180)
         return {"answer": answer, "sources": sources}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

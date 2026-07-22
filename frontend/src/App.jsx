@@ -169,6 +169,7 @@ function DocumentPanel({ toast }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [deletingDocId, setDeletingDocId] = useState(null);
 
   const fetchDocs = useCallback(async () => {
     try {
@@ -189,7 +190,7 @@ function DocumentPanel({ toast }) {
     files.forEach(f => fd.append('files', f));
     try {
       await axios.post(`${API}/api/docs/upload`, fd, {
-        headers: { 'Content-Type': 'multipart/form-data', ...authHeaders() },
+        headers: authHeaders(),
       });
       toast(`${files.length} file(s) uploaded & summarized!`, 'success');
       await fetchDocs();
@@ -202,13 +203,20 @@ function DocumentPanel({ toast }) {
   };
 
   const handleDelete = async (docId, filename) => {
-    if (!window.confirm(`Delete "${filename}"?`)) return;
+    if (!window.confirm(`Delete "${filename}"? This removes the document and its embeddings.`)) {
+      return;
+    }
+
+    setDeletingDocId(docId);
     try {
       await axios.delete(`${API}/api/docs/${docId}`, { headers: authHeaders() });
-      toast(`"${filename}" deleted`, 'success');
-      setDocs(prev => prev.filter(d => d.id !== docId));
+      toast(`Deleted ${filename}`, 'success');
+      await fetchDocs();
+      if (expandedDoc === docId) setExpandedDoc(null);
     } catch {
       toast('Delete failed', 'error');
+    } finally {
+      setDeletingDocId(null);
     }
   };
 
@@ -247,7 +255,7 @@ function DocumentPanel({ toast }) {
             const fd = new FormData();
             files.forEach(f => fd.append('files', f));
             try {
-              await axios.post(`${API}/api/docs/upload`, fd, { headers: { 'Content-Type': 'multipart/form-data', ...authHeaders() } });
+              await axios.post(`${API}/api/docs/upload`, fd, { headers: authHeaders() });
               toast(`${files.length} file(s) uploaded!`, 'success');
               await fetchDocs();
             } catch { toast('Upload failed', 'error'); }
@@ -289,7 +297,14 @@ function DocumentPanel({ toast }) {
                     >
                       {expandedDoc === d.id ? '▲' : '▼'}
                     </button>
-                    <button className="icon-btn danger" title="Delete" onClick={() => handleDelete(d.id, d.filename)}>🗑</button>
+                    <button
+                      className="icon-btn danger"
+                      title="Delete"
+                      disabled={deletingDocId === d.id}
+                      onClick={() => handleDelete(d.id, d.filename)}
+                    >
+                      {deletingDocId === d.id ? '…' : '🗑'}
+                    </button>
                   </div>
                 </div>
                 <div className="doc-meta">{new Date(d.uploaded_at).toLocaleString()}</div>
@@ -417,7 +432,6 @@ function ChatPanel({ toast }) {
       const decoder = new TextDecoder();
       let fullText = '';
       let newSessionId = activeSessionId;
-      let sources = [];
 
       while (true) {
         const { done, value } = await reader.read();
@@ -432,7 +446,6 @@ function ChatPanel({ toast }) {
             try {
               const meta = JSON.parse(data.slice(8));
               newSessionId = meta.session_id;
-              sources = meta.sources || [];
               if (!activeSessionId) setActiveSessionId(newSessionId);
             } catch { /* ignore */ }
             continue;
@@ -444,14 +457,17 @@ function ChatPanel({ toast }) {
 
       setChatHistory(prev => [
         ...prev,
-        { role: 'assistant', text: fullText || 'No response.', sources },
+        {
+          role: 'assistant',
+          text: fullText || 'No response.',
+        },
       ]);
       setStreamingText('');
       await fetchSessions();
     } catch (err) {
       setChatHistory(prev => [
         ...prev,
-        { role: 'assistant', text: 'Error: ' + err.message, sources: [] },
+        { role: 'assistant', text: 'Error: ' + err.message },
       ]);
     } finally {
       setStreaming(false);
@@ -494,7 +510,7 @@ function ChatPanel({ toast }) {
             <div className="chat-empty">
               <div className="chat-empty-icon">🤖</div>
               <p>Ask anything about your uploaded documents.</p>
-              <p className="muted">I'll search through them and answer with sources.</p>
+              <p className="muted">I'll search through them and answer clearly from your uploaded documents.</p>
             </div>
           ) : (
             <div className="chat-history">
@@ -504,17 +520,6 @@ function ChatPanel({ toast }) {
                   <div className="message-body">
                     <div className="message-label">{item.role === 'user' ? 'You' : 'Assistant'}</div>
                     <div className="message-text">{item.text}</div>
-                    {item.sources?.length > 0 && (
-                      <details className="chat-sources">
-                        <summary>📎 {item.sources.length} source(s)</summary>
-                        {item.sources.map((src, si) => (
-                          <div key={si} className="source-snippet">
-                            <span className="source-label">{src.meta?.filename || 'Doc'}</span>
-                            {src.meta?.text?.slice(0, 150) || ''}…
-                          </div>
-                        ))}
-                      </details>
-                    )}
                   </div>
                 </div>
               ))}
